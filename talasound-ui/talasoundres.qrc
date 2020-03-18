@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/iconfinder_play_alt_118620.png</file>
+        <file>img/iconfinder_pause_118628.png</file>
+    </qresource>
+</RCC>
