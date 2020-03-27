@@ -21,11 +21,20 @@ namespace Ui {
 class MainWindow;
 }
 
+/**
+ * @brief The MainWindow class
+ * The mainwindow the application
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief MainWindow
+     * Constructor
+     * @param parent the parent the main window by deflaut is none
+     */
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
@@ -79,54 +88,54 @@ private slots:
     /**
      * @brief on_actionLire_Musique_triggered
      */
-    void on_actionLire_Musique_triggered();
+    void on_actionLire_Musique_triggered(void);
 
 
 
     /**
      * @brief on_listMusicView_activated
-     * @param index
+     * @param index the index of the model
      */
     void on_listMusicView_activated(const QModelIndex &index);
 
     /**
      * @brief playlistPositionChanged
-     * @param currentItem
+     * @param currentItem the item selected to playe
      */
     void playlistPositionChanged(int currentItem);
 
     /**
      * @brief statusChanged
-     * @param status
+     * @param status the status of the media
      */
     void statusChanged(QMediaPlayer::MediaStatus status);
 
     /**
      * @brief displayErrorMessage
      */
-    void displayErrorMessage();
+    void displayErrorMessage(void);
 
     /**
      * @brief on_playSlider_sliderMoved
-     * @param position
+     * @param position the position
      */
     void on_playSlider_sliderMoved(int position);
 
     /**
      * @brief durationChanged
-     * @param duration
+     * @param duration the duration of the new music
      */
     void durationChanged(qint64 duration);
 
     /**
      * @brief positionChanged
-     * @param progress
+     * @param progress the progress of duration of the music
      */
     void positionChanged(qint64 progress);
 
     /**
      * @brief setState
-     * @param state
+     * @param state the state of media player
      */
     void setState(QMediaPlayer::State state);
 
@@ -136,7 +145,7 @@ private:
      * create connection with signals and slots
      */
     void configureConnections(void);
-    void clearHistogram();
+    void clearHistogram(void);
     void setTrackInfo(const QString &info);
     void setStatusInfo(const QString &info);
     void handleCursor(QMediaPlayer::MediaStatus status);
@@ -156,9 +165,26 @@ private:
      * Playlist de musique
      */
     QMediaPlaylist *playlist;
+
+    /**
+     * @brief playlistModel
+     * Model of the playlsite
+     */
     PlaylistMusicModel *playlistModel;
+    /**
+     * @brief playerModel
+     * the model of the player
+     */
     PlayerModel *playerModel;
+    /**
+     * @brief trackInfo
+     * info of the track
+     */
     QString trackInfo;
+
+    /**
+     * @brief statusInfo
+     */
     QString statusInfo;
 
     QAudioProbe *audioProbe;
