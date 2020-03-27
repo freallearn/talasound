@@ -76,8 +76,7 @@ void NetworkPI::sessionOpened()
     }
 
     tcpServer = new QTcpServer(this);
-
-    if (!tcpServer->listen()) {
+    if (!tcpServer->listen(QHostAddress("192.168.1.18"),8888)) {
 
         logText->append(QString("Impossible de démarrer le serveur: %1\n").arg(tcpServer->errorString()));
         return;
