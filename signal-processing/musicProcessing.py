@@ -141,7 +141,7 @@ if __name__ == "__main__":
 		tabBeat = detect_beat(filename)[:]
 
 		tabFinal = triTabs(tabPitch, tabBeat)[:]
-
+		print(tabFinal)
 		fic = open("orders.csv", "w")
 		nbMoves = len(tabFinal)
 		for i in range(nbMoves):
