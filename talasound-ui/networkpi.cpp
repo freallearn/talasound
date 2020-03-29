@@ -5,6 +5,7 @@
 #include <QTextBrowser>
 #include <QString>
 #include <QDebug>
+#include <QTcpServer>
 
 NetworkPI::NetworkPI(QTextBrowser *logText):tcpServer(Q_NULLPTR),networkSession(0)
 {
@@ -25,6 +26,7 @@ NetworkPI::NetworkPI(QTextBrowser *logText):tcpServer(Q_NULLPTR),networkSession(
         }
         networkSession = new QNetworkSession(config,this);
         connect(networkSession, &QNetworkSession::opened, this, &NetworkPI::sessionOpened);
+        connect(tcpServer, &QTcpServer::newConnection, this, &NetworkPI::hadConnection);
         networkSession->open();
 
     }
@@ -76,8 +78,7 @@ void NetworkPI::sessionOpened()
     }
 
     tcpServer = new QTcpServer(this);
-
-    if (!tcpServer->listen()) {
+    if (!tcpServer->listen(QHostAddress("192.168.1.18"),8888)) {
 
         logText->append(QString("Impossible de démarrer le serveur: %1\n").arg(tcpServer->errorString()));
         return;
@@ -105,6 +106,11 @@ void NetworkPI::sessionOpened()
     logText->append(QString("Le serveur tourne sur l'adresse \n\nIP: %1\nport: %2\n\n Attente de connexion de la PI\n")
                     .arg(ipAddress).arg(tcpServer->serverPort()));
 
+}
+
+void NetworkPI::hadConnection()
+{
+   logText->append(QString("PI Connectée"));
 }
 
 void NetworkPI::sendInstructionToPi(QString instruction)

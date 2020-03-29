@@ -46,7 +46,8 @@ FORMS += \
 DISTFILES += \
     talasound.qss \
     BojourForm.ui.qml \
-    Bojour.qml
+    Bojour.qml \
+    musicProcessing.py
 
 RESOURCES += \
     talasoundres.qrc

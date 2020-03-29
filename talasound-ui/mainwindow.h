@@ -6,7 +6,7 @@
 #include <QIcon>
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-
+#include <QProcess>
 #include "networkpi.h"
 
 
@@ -49,7 +49,7 @@ public:
      * @brief isPlayerAvailable
      * @return  true if the player is available otherwise false
      */
-    bool isPlayerAvailable() const;
+    bool isPlayerAvailable(void) const;
 
     /**
      * @brief fullScreenChanged
@@ -59,31 +59,34 @@ public:
 
 
 private slots:
+    void readSortie();
 
+    void giveStateString(QProcess::ProcessState state);
+    void sendFinished();
     /**
      * @brief on_buttonPlayPause_clicked
      */
-    void on_buttonPlayPause_clicked();
+    void on_buttonPlayPause_clicked(void);
 
     /**
      * @brief on_buttonVolumeONOFF_clicked
      */
-    void on_buttonVolumeONOFF_clicked();
+    void on_buttonVolumeONOFF_clicked(void);
 
     /**
      * @brief on_buttonUpVolume_clicked
      */
-    void on_buttonUpVolume_clicked();
+    void on_buttonUpVolume_clicked(void);
 
     /**
      * @brief on_buttonDownVolume_clicked
      */
-    void on_buttonDownVolume_clicked();
+    void on_buttonDownVolume_clicked(void);
 
     /**
      * @brief open
      */
-    void open();
+    void open(void);
 
     /**
      * @brief on_actionLire_Musique_triggered
@@ -139,6 +142,8 @@ private slots:
      */
     void setState(QMediaPlayer::State state);
 
+
+    void launchComputing(QString nameOfMusique);
 private:
     /**
      * @brief configureConnections
@@ -193,6 +198,8 @@ private:
      * Connexion avec la pi
      */
     NetworkPI *networkPI;
+
+    QProcess *launchSignal;
 
 };
 

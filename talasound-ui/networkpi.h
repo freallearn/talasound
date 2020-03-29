@@ -49,6 +49,8 @@ private slots:
      * @brief sessionOpened
      */
     void sessionOpened();
+
+    void hadConnection();
 private:
 
     /**
