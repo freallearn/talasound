@@ -6,7 +6,7 @@ setup(
     packages=find_packages,
     url='',
     license='',
-    author='Arnaud Fréalle, Charles Paillot',
+    author='Arnaud Fréalle, Charles Paillot, Mathis Boiteau',
     author_email='',
     description=''
 )

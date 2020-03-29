@@ -5,8 +5,8 @@ import csv
 import subprocess
 
 
-
 class Animation:
+
     def __init__(self):
         # set up de pygame
         pygame.init()
@@ -29,6 +29,7 @@ class Animation:
         self.posy = 0.
         self.difY = 0.
         self.consty = 300.
+
     def animate(self):
         # Creation d'un tableau contenant toutes les commandes
         tabCommande = [[-0.1, 0., 0.]]
@@ -53,25 +54,11 @@ class Animation:
                     commande = fichier.readline()
                     fichier.close()
             # recuperation de la position suivante
-            difX = int((tabCommande[i][1] * 7 - self.posx) / self.FPS10)
-            difY = int((tabCommande[i][2] - self.posy) / self.FPS10)
+            self.difX = int((tabCommande[i][1] * 7 - self.posx) / self.FPS10)
+            self.difY = int((tabCommande[i][2] - self.posy) / self.FPS10)
             # check des limites physiques des moteurs
-            if abs(difX) > 90 * 7 / (self.FPS * vitesse):
-                difX = 90 * 7 / (vitesse * self.FPS * abs(difX) / difX)
-            if abs(difY) > 470 / (self.FPS * vitesse):
-                difY = 470 / (vitesse * self.FPS * abs(difY) / difY)
-            # affichage et passage a la position suivante
-            for j in range(self.FPS10):
-                self.DISPLAYSURF.fill(self.WHITE)
-                self.DISPLAYSURF.blit(self.ligneImg, (int(self.constX), int(self.consty + 190)))
-                self.DISPLAYSURF.blit(self.railImg, (int(self.constX + self.posx), int(self.consty)))
-                self.DISPLAYSURF.blit(self.bouleImg,
-                                 (
-                                 int(self.constX + self.posx) - 7, int(self.consty - self.posy - 140)))  # corretifs pour aligner proprement
-                self.posx += difX
-                self.posy += difY
-                pygame.display.update()
-                self.fpsClock.tick(vitesse * self.FPS)
+            self.correct_limits_of_motors(vitesse)
+            self.update_graphics(vitesse)
 
             # fermeture en cas de crash
             for event in pygame.event.get():
@@ -81,5 +68,33 @@ class Animation:
 
         time.sleep(3)  # temps de pause a la fin de l'animation
 
+    def correct_limits_of_motors(self, vitesse):
+        """
+        Correct limits of motor if necessary
+        :param vitesse:
+        :return:
+        """
+        if abs(self.difX) > 90 * 7 / (self.FPS * vitesse):
+            self.difX = 90 * 7 / (vitesse * self.FPS * abs(self.difX) / self.difX)
+        if abs(self.difY) > 470 / (self.FPS * vitesse):
+            self.difY = 470 / (vitesse * self.FPS * abs(self.difY) / self.difY)
 
-sys.exit()
+    def update_graphics(self, vitesse):
+        """
+        update the graphics
+        :param vitesse: the vitesse
+        :return:
+        """
+        # affichage et passage a la position suivante
+        for j in range(self.FPS10):
+            self.DISPLAYSURF.fill(self.WHITE)
+            self.DISPLAYSURF.blit(self.ligneImg, (int(self.constX), int(self.consty + 190)))
+            self.DISPLAYSURF.blit(self.railImg, (int(self.constX + self.posx), int(self.consty)))
+            self.DISPLAYSURF.blit(self.bouleImg,
+                                  (
+                                      int(self.constX + self.posx) - 7,
+                                      int(self.consty - self.posy - 140)))  # corretifs pour aligner proprement
+            self.posx += self.difX
+            self.posy += self.difY
+            pygame.display.update()
+            self.fpsClock.tick(vitesse * self.FPS)
