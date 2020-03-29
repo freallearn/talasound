@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 setup(
     name='talasound',
     version='',
-    packages=find_packages,
+    packages=['simulator', 'simulator.client', 'simulator.animation'],
     url='',
     license='',
-    author='Arnaud Fréalle, Charles Paillot, Mathis Boiteau',
+    author='Arnaud Fréalle, Charles Paillot',
     author_email='',
-    description=''
+    description='', install_requires=['pygame']
 )

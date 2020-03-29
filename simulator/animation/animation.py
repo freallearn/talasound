@@ -81,7 +81,7 @@ class Animation:
 
     def update_graphics(self, vitesse):
         """
-        update the graphics
+        update the graphics and print the next position
         :param vitesse: the vitesse
         :return:
         """
