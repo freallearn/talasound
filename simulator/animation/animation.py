@@ -3,21 +3,23 @@ from pygame.locals import *
 import time
 import csv
 import subprocess
-
+import os
 
 class Animation:
 
     def __init__(self):
         # set up de pygame
         pygame.init()
+
+        self.fpsClock = pygame.time.Clock()
         self.FPS = 100
         self.FPS10 = 10
-        self.fpsClock = pygame.time.Clock()
 
         self.DISPLAYSURF = pygame.display.set_mode((900, 600), 0, 32)
         pygame.display.set_caption('Animation')
 
         self.WHITE = (255, 255, 255)
+        print(os.getcwd())
         self.railImg = pygame.image.load('rail.png')
         self.bouleImg = pygame.image.load('boule.png')
         self.ligneImg = pygame.image.load('ligne.png')
@@ -31,6 +33,7 @@ class Animation:
         self.consty = 300.
 
     def animate(self):
+
         # Creation d'un tableau contenant toutes les commandes
         tabCommande = [[-0.1, 0., 0.]]
         with open('orders.csv', 'r') as file:
