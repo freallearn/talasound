@@ -2,8 +2,12 @@ import pygame, sys
 from pygame.locals import *
 import time
 import csv
-import subprocess
-import os
+import shutil
+
+# import subprocess
+# import os
+
+
 
 class Animation:
 
@@ -19,7 +23,6 @@ class Animation:
         pygame.display.set_caption('Animation')
 
         self.WHITE = (255, 255, 255)
-        print(os.getcwd())
         self.railImg = pygame.image.load('rail.png')
         self.bouleImg = pygame.image.load('boule.png')
         self.ligneImg = pygame.image.load('ligne.png')
@@ -36,7 +39,7 @@ class Animation:
 
         # Creation d'un tableau contenant toutes les commandes
         tabCommande = [[-0.1, 0., 0.]]
-        with open('orders.csv', 'r') as file:
+        with open('./client/orders.txt', 'r') as file:
             reader = csv.reader(file, delimiter=";")
             for row in reader:
                 new_row = [float(row[0]), float(row[1]), float(row[2])]
@@ -61,6 +64,7 @@ class Animation:
             self.difY = int((tabCommande[i][2] - self.posy) / self.FPS10)
             # check des limites physiques des moteurs
             self.correct_limits_of_motors(vitesse)
+
             self.update_graphics(vitesse)
 
             # fermeture en cas de crash
@@ -99,5 +103,6 @@ class Animation:
                                       int(self.consty - self.posy - 140)))  # corretifs pour aligner proprement
             self.posx += self.difX
             self.posy += self.difY
+            # print(self.posx," ",self.posy)
             pygame.display.update()
             self.fpsClock.tick(vitesse * self.FPS)
