@@ -42,6 +42,7 @@ public:
      * @param logText the log text
      */
     void setLog(QTextBrowser *logText);
+    void sendFileCommande(QString nameOfMusique);
 
 private slots:
 
@@ -49,6 +50,8 @@ private slots:
      * @brief sessionOpened
      */
     void sessionOpened();
+
+    void hadConnection();
 private:
 
     /**
@@ -66,6 +69,8 @@ private:
      * @param instruction the instruction to send
      */
     void sendInstructionToPi(QString instruction);
+
+
 
     /**
      * @brief logText

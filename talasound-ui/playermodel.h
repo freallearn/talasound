@@ -5,6 +5,7 @@
 #include <QString>
 #include <QTime>
 
+
 #define MAX_VOLUME 100
 #define MIN_VOLUME 0
 #define DEFAULT_VOLUME 50
@@ -12,7 +13,7 @@
 
 /**
  * @brief The PlayerModel class
- *
+ * @author Fréalle Arnaud
  * The model of the player contains data of the player
  */
 class PlayerModel
@@ -65,7 +66,7 @@ public:
 
     /**
      * @brief downVolume
-     * @param volume
+     * @param volume the volume to down
      */
     void downVolume(int volume=1);
     /**

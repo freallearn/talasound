@@ -5,7 +5,8 @@
 #include <QTextBrowser>
 #include <QString>
 #include <QDebug>
-
+#include <QTcpServer>
+#include <QFile>
 NetworkPI::NetworkPI(QTextBrowser *logText):tcpServer(Q_NULLPTR),networkSession(0)
 {
 
@@ -25,6 +26,7 @@ NetworkPI::NetworkPI(QTextBrowser *logText):tcpServer(Q_NULLPTR),networkSession(
         }
         networkSession = new QNetworkSession(config,this);
         connect(networkSession, &QNetworkSession::opened, this, &NetworkPI::sessionOpened);
+        connect(tcpServer, &QTcpServer::newConnection, this, &NetworkPI::hadConnection);
         networkSession->open();
 
     }
@@ -76,8 +78,7 @@ void NetworkPI::sessionOpened()
     }
 
     tcpServer = new QTcpServer(this);
-
-    if (!tcpServer->listen()) {
+    if (!tcpServer->listen(QHostAddress("192.168.1.18"),8888)) {
 
         logText->append(QString("Impossible de démarrer le serveur: %1\n").arg(tcpServer->errorString()));
         return;
@@ -107,20 +108,44 @@ void NetworkPI::sessionOpened()
 
 }
 
+void NetworkPI::hadConnection()
+{
+   logText->append(QString("PI Connectée"));
+}
+
+
 void NetworkPI::sendInstructionToPi(QString instruction)
 {
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_9);
     out << instruction;
-    qDebug() << "Send";
     QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
-    qDebug() << "Envoi";
-    // connect(clientConnection, &QAbstractSocket::disconnected,
-    //       clientConnection, &QObject::deleteLater);
     if(clientConnection){
         clientConnection->write(block);
+        clientConnection->waitForBytesWritten();
         clientConnection->disconnectFromHost();
         logText->append(instruction);
+    }
+}
+
+void NetworkPI::sendFileCommande(QString nameOfMusique)
+{
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_5_9);
+    out << (quint64)0; // Space for size of data
+    out << "send";
+    QFile file("./orders.csv");
+    QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
+    file.open(QIODevice::ReadOnly);
+    QByteArray q = file.readAll();
+    if(clientConnection && file.exists()){
+        clientConnection->write(block);
+        clientConnection->waitForBytesWritten();
+        clientConnection->write(q);
+        clientConnection->waitForBytesWritten();
+        clientConnection->disconnectFromHost();
+        logText->append("send command file instruction");
     }
 }
