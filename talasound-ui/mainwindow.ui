@@ -122,20 +122,6 @@ background-color: white;
         <property name="sizeConstraint">
          <enum>QLayout::SetMaximumSize</enum>
         </property>
-        <item>
-         <widget class="QPushButton" name="pushButton_2">
-          <property name="text">
-           <string>-</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>+</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </item>
       <item row="2" column="1">

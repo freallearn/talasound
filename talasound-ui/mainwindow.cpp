@@ -93,6 +93,9 @@ void MainWindow::readSortie()
 void MainWindow::giveStateString(QProcess::ProcessState state)
 {
     qDebug() << "State  ?  : " << state;
+    if(state==QProcess::NotRunning){
+       // networkPI->sendFileCommande("./orders.csv");
+    }
 }
 
 void MainWindow::sendFinished()
@@ -106,11 +109,13 @@ void MainWindow::on_buttonPlayPause_clicked()
     qDebug() << "Change State :  " << playerModel->getPlayerState();
     if(playerModel->isPlaying()) {
         qDebug() << "Play";
+
         player->pause();
         networkPI->sendPause();
     }
     else {
         qDebug() << "Pause";
+        //networkPI->sendFileCommande("");
         player->play();
         networkPI->sendStart(playlist->currentMedia().canonicalUrl().fileName());
     }
@@ -139,6 +144,7 @@ void MainWindow::jump(const QModelIndex &index)
 {
     if (index.isValid()) {
         playlist->setCurrentIndex(index.row());
+        networkPI->sendStart(playlist->currentMedia().canonicalUrl().fileName());
         player->play();
     }
 }

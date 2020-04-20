@@ -6,7 +6,7 @@
 #include <QString>
 #include <QDebug>
 #include <QTcpServer>
-
+#include <QFile>
 NetworkPI::NetworkPI(QTextBrowser *logText):tcpServer(Q_NULLPTR),networkSession(0)
 {
 
@@ -113,20 +113,39 @@ void NetworkPI::hadConnection()
    logText->append(QString("PI Connectée"));
 }
 
+
 void NetworkPI::sendInstructionToPi(QString instruction)
 {
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_9);
     out << instruction;
-    qDebug() << "Send";
     QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
-    qDebug() << "Envoi";
-    // connect(clientConnection, &QAbstractSocket::disconnected,
-    //       clientConnection, &QObject::deleteLater);
     if(clientConnection){
         clientConnection->write(block);
+        clientConnection->waitForBytesWritten();
         clientConnection->disconnectFromHost();
         logText->append(instruction);
+    }
+}
+
+void NetworkPI::sendFileCommande(QString nameOfMusique)
+{
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_5_9);
+    out << (quint64)0; // Space for size of data
+    out << "send";
+    QFile file("./orders.csv");
+    QTcpSocket *clientConnection = tcpServer->nextPendingConnection();
+    file.open(QIODevice::ReadOnly);
+    QByteArray q = file.readAll();
+    if(clientConnection && file.exists()){
+        clientConnection->write(block);
+        clientConnection->waitForBytesWritten();
+        clientConnection->write(q);
+        clientConnection->waitForBytesWritten();
+        clientConnection->disconnectFromHost();
+        logText->append("send command file instruction");
     }
 }

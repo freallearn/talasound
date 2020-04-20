@@ -1,4 +1,7 @@
 import QtQuick 2.4
+import QtQuick.Templates 2.2
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.2
 
 Item {
     width: 400
@@ -57,5 +60,18 @@ Item {
                 }
             }
         }
+    }
+
+    BusyIndicator {
+        id: busyIndicator
+        x: 49
+        y: 221
+    }
+
+    Switch {
+        id: switch1
+        x: 120
+        y: 268
+        text: qsTr("Switch")
     }
 }
