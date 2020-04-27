@@ -31,3 +31,8 @@ Ordre :
 # Signal Processing
 
 Contient tout le traitement de la musique.
+
+
+# Simulator
+
+Contient le simulateur
