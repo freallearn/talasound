@@ -6,7 +6,7 @@ import subprocess
 
 #Creation d'un tableau contenant toutes les commandes
 tabCommande = [[-0.1,0.,0.]]
-with open('orders.csv', 'r') as file:
+with open('orders2.csv', 'r') as file:
     reader = csv.reader(file, delimiter=";")
     for row in reader:
         new_row = [float(row[0]), float(row[1]), float(row[2])]
