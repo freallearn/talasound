@@ -1,4 +1,4 @@
-talasound
+Talasound
 ==============
 
 
@@ -6,7 +6,14 @@ talasound
   - cmake
   - qt5
   - python version 3
+  - qt creator
+  - Linux
   
+
+# Compilation
+
+Cmake:
+    cmake --build /data/ING3/PFE/talasound/talasound-ui/cmake-build-debug --target talasound_ui -- -j 4
 
 # Interface graphique
 
